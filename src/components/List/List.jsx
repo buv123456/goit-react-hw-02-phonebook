@@ -1,40 +1,31 @@
-import { capitalCase } from 'capital-case';
-import { nanoid } from 'nanoid';
-import { Component } from 'react';
+// import { capitalCase } from 'capital-case';
+// import { Component } from 'react';
 
-export class List extends Component {
-  state = {
-    filterStr: '',
-  };
-
-  onChange = e => {
-    this.setState({ filterStr: e.target.value.toLowerCase() });
-  };
-
-  render() {
-    const filteredContacts = this.props.contacts.filter(
-      contact =>
-        contact.name.toLowerCase().includes(this.state.filterStr) ||
-        contact.number.includes(this.state.filterStr)
-    );
-    return (
-      <div>
-        <h2>Contacts</h2>
-        <input
-          type="text"
-          name="filter"
-          onChange={this.onChange}
-          value={this.state.filterStr}
-        />
-
-        <ul>
-          {filteredContacts.map(contact => (
-            <li key={nanoid()} name={contact.name}>
-              {capitalCase(contact.name)}: {contact.number}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+export function List({ contacts, filter, onDelete }) {
+  return (
+    <div>
+      <ul>
+        {contacts.reduce((a, contact) => {
+          if (
+            contact.name.toLowerCase().includes(filter) ||
+            contact.number.includes(filter)
+          ) {
+            a.push(
+              <li key={contact.id} name={contact.name}>
+                {contact.name}: {contact.number}
+                <button
+                  type="button"
+                  id={contact.id}
+                  onClick={e => onDelete(e.target.id)}
+                >
+                  Delete
+                </button>
+              </li>
+            );
+          }
+          return a;
+        }, [])}
+      </ul>
+    </div>
+  );
 }

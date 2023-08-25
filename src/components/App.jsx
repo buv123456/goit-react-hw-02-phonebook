@@ -1,26 +1,36 @@
 import { Component } from 'react';
+import { nanoid } from 'nanoid';
+import { capitalCase } from 'capital-case';
+import Filter from './Filter/Filter';
 import { List } from './List/List';
+import { ContactFofm } from './ContactFofm/ContactFofm';
 
 export class App extends Component {
   state = {
-    contacts: [],
-    name: '',
-    number: '',
-    // filter: '',
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
   };
 
-  onChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value.toLowerCase() });
+  addContact = ({ name, number }) => {
+    const newName = capitalCase(name);
+    const isInList = this.state.contacts.some(item => item.name === newName);
+    isInList
+      ? alert(newName + ' is already in contacts list!')
+      : this.setState(prev => ({
+          contacts: [...prev.contacts, { name: newName, number, id: nanoid() }],
+        }));
   };
 
-  onAddContact = e => {
-    e.preventDefault();
-    this.setState(({ contacts, name, number }) => ({
-      name: '',
-      number: '',
-      contacts: [...contacts, { name, number }],
-    }));
+  changeFilter = filterStr => this.setState({ filter: filterStr });
+
+  onDelete = idForDel => {
+    const newContacts = this.state.contacts.filter(({ id }) => id !== idForDel);
+    this.setState({ contacts: [...newContacts] });
   };
 
   render() {
@@ -35,39 +45,21 @@ export class App extends Component {
       //   color: '#010101',
       // }}
       >
-        <form onSubmit={this.onAddContact}>
-          <label>
-            Name
-            <input
-              type="text"
-              name="name"
-              // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              required
-              value={this.state.name}
-              onChange={this.onChange}
-            />
-          </label>
-          <label>
-            Phone
-            <input
-              type="tel"
-              name="number"
-              // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-              required
-              value={this.state.number}
-              onChange={this.onChange}
-            />
-          </label>
-          <button type="submit">Add contact</button>
-        </form>
-
+        <h1>Phonebook</h1>
+        <ContactFofm contacts={this.contacts} addContact={this.addContact} />
         {!!this.state.contacts.length && (
-          <List
-            contacts={this.state.contacts}
-            onchangeFilter={this.onChange}
-          ></List>
+          <div>
+            <h2>Contacts</h2>
+            <Filter
+              filter={this.state.filter}
+              onCnangeFilter={this.changeFilter}
+            />
+            <List
+              contacts={this.state.contacts}
+              filter={this.state.filter}
+              onDelete={this.onDelete}
+            />
+          </div>
         )}
       </div>
     );
