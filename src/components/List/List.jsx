@@ -1,7 +1,7 @@
 // import { capitalCase } from 'capital-case';
 // import { Component } from 'react';
 
-export function List({ contacts, filter, onDelete }) {
+export function List({ contacts, filter, deleteContact }) {
   return (
     <div>
       <ul>
@@ -16,7 +16,7 @@ export function List({ contacts, filter, onDelete }) {
                 <button
                   type="button"
                   id={contact.id}
-                  onClick={e => onDelete(e.target.id)}
+                  onClick={e => deleteContact(e.target.id)}
                 >
                   Delete
                 </button>

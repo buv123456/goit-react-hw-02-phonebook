@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { capitalCase } from 'capital-case';
-import Filter from './Filter/Filter';
+import { Filter } from './Filter/Filter';
 import { List } from './List/List';
 import { ContactFofm } from './ContactFofm/ContactFofm';
 
@@ -28,7 +28,7 @@ export class App extends Component {
 
   changeFilter = filterStr => this.setState({ filter: filterStr });
 
-  onDelete = idForDel => {
+  deleteContact = idForDel => {
     const newContacts = this.state.contacts.filter(({ id }) => id !== idForDel);
     this.setState({ contacts: [...newContacts] });
   };
@@ -57,7 +57,7 @@ export class App extends Component {
             <List
               contacts={this.state.contacts}
               filter={this.state.filter}
-              onDelete={this.onDelete}
+              onDelete={this.deleteContact}
             />
           </div>
         )}
