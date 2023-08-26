@@ -45,8 +45,10 @@ export class App extends Component {
       //   color: '#010101',
       // }}
       >
-        <h1>Phonebook</h1>
-        <ContactFofm contacts={this.contacts} addContact={this.addContact} />
+        <div>
+          <h1>Phonebook</h1>
+          <ContactFofm contacts={this.contacts} addContact={this.addContact} />
+        </div>
         {!!this.state.contacts.length && (
           <div>
             <h2>Contacts</h2>
