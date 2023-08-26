@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { capitalCase } from 'capital-case';
 import { Filter } from './Filter/Filter';
 import { List } from './List/List';
 import { ContactFofm } from './ContactFofm/ContactFofm';
@@ -17,12 +16,11 @@ export class App extends Component {
   };
 
   addContact = ({ name, number }) => {
-    const newName = capitalCase(name);
-    const isInList = this.state.contacts.some(item => item.name === newName);
+    const isInList = this.state.contacts.some(item => item.name === name);
     isInList
-      ? alert(newName + ' is already in contacts list!')
+      ? alert(name + ' is already in contacts list!')
       : this.setState(prev => ({
-          contacts: [...prev.contacts, { name: newName, number, id: nanoid() }],
+          contacts: [...prev.contacts, { name, number, id: nanoid() }],
         }));
   };
 
@@ -47,7 +45,7 @@ export class App extends Component {
       >
         <div>
           <h1>Phonebook</h1>
-          <ContactFofm contacts={this.contacts} addContact={this.addContact} />
+          <ContactFofm addContact={this.addContact} />
         </div>
         {!!this.state.contacts.length && (
           <div>
