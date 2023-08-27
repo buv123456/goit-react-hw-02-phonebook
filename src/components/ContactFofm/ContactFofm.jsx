@@ -1,5 +1,12 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
+import {
+  ButtonStyled,
+  ErrorMsgStyled,
+  FieldStyled,
+  FormStyled,
+  LabelStyled,
+} from './ContactFofm.styled';
 
 const initialValues = {
   name: '',
@@ -17,7 +24,7 @@ const SignupSchema = Yup.object().shape({
     .required('Required'),
   number: Yup.string()
     .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
+    .max(30, 'Too Long!')
     .matches(
       /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
       'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
@@ -37,19 +44,23 @@ export function ContactFofm({ addContact }) {
       onSubmit={handleSubmit}
       validationSchema={SignupSchema}
     >
-      <Form>
-        <label>
+      <FormStyled>
+        <LabelStyled>
           Name
-          <Field type="text" name="name" />
-          <ErrorMessage name="name" component="div" />
-        </label>
-        <label>
+          <FieldStyled
+            type="text"
+            name="name"
+            placeholder="Charles de Castelmore d'Artagnan"
+          />
+          <ErrorMsgStyled name="name" component="div" />
+        </LabelStyled>
+        <LabelStyled>
           Phone
-          <Field type="tel" name="number" />
-          <ErrorMessage name="number" component="div" />
-        </label>
-        <button type="submit">Add contact</button>
-      </Form>
+          <FieldStyled type="tel" name="number" placeholder="Phone" />
+          <ErrorMsgStyled name="number" component="div" />
+        </LabelStyled>
+        <ButtonStyled type="submit">Add contact</ButtonStyled>
+      </FormStyled>
     </Formik>
   );
 }

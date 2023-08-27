@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { Filter } from './Filter/Filter';
-import { List } from './List/List';
 import { ContactFofm } from './ContactFofm/ContactFofm';
+import { Layout, WrapperStyled, Header } from './App.styled';
+import Phonebook from './Phonebook/Phonebook';
 
 export class App extends Component {
   state = {
@@ -16,7 +16,9 @@ export class App extends Component {
   };
 
   addContact = ({ name, number }) => {
-    const isInList = this.state.contacts.some(item => item.name === name);
+    const isInList = this.state.contacts.some(
+      item => item.name.toLowerCase() === name.toLowerCase()
+    );
     isInList
       ? alert(name + ' is already in contacts list!')
       : this.setState(prev => ({
@@ -33,35 +35,20 @@ export class App extends Component {
 
   render() {
     return (
-      <div
-      // style={{
-      //   height: '100vh',
-      //   display: 'flex',
-      //   justifyContent: 'center',
-      //   alignItems: 'center',
-      //   fontSize: 40,
-      //   color: '#010101',
-      // }}
-      >
-        <div>
-          <h1>Phonebook</h1>
+      <Layout>
+        <WrapperStyled>
+          <Header>Phonebook</Header>
           <ContactFofm addContact={this.addContact} />
-        </div>
+        </WrapperStyled>
         {!!this.state.contacts.length && (
-          <div>
-            <h2>Contacts</h2>
-            <Filter
-              filter={this.state.filter}
-              onCnangeFilter={this.changeFilter}
-            />
-            <List
-              contacts={this.state.contacts}
-              filter={this.state.filter}
-              onDelete={this.deleteContact}
-            />
-          </div>
+          <Phonebook
+            filter={this.state.filter}
+            onCnangeFilter={this.changeFilter}
+            contacts={this.state.contacts}
+            onDelete={this.deleteContact}
+          />
         )}
-      </div>
+      </Layout>
     );
   }
 }
