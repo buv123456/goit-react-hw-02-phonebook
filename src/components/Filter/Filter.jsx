@@ -1,12 +1,11 @@
 import { FilterStyled } from './Filter.styled';
 
-export function Filter({ onCnangeFilter, filter }) {
+export function Filter({ onChangeFilter, filter }) {
   return (
     <FilterStyled
       type="text"
       name="filter"
-      onChange={e => onCnangeFilter(e.target.value)}
-      onBlur={() => onCnangeFilter('')}
+      onChange={e => onChangeFilter(e.target.value)}
       value={filter}
       placeholder="add filter..."
     />

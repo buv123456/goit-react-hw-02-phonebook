@@ -11,6 +11,8 @@ export class App extends Component {
   };
 
   addContact = ({ name, number }) => {
+    name = name.trim();
+    number = number.trim();
     const isInList = this.state.contacts.some(
       item => item.name.toLowerCase() === name.toLowerCase()
     );
@@ -24,22 +26,30 @@ export class App extends Component {
   changeFilter = filterStr => this.setState({ filter: filterStr });
 
   deleteContact = idForDel => {
-    const newContacts = this.state.contacts.filter(({ id }) => id !== idForDel);
-    this.setState({ contacts: [...newContacts] });
+    const undeletedContacts = this.state.contacts.filter(
+      ({ id }) => id !== idForDel
+    );
+    this.setState({ contacts: [...undeletedContacts] });
   };
 
   render() {
+    const { filter, contacts } = this.state;
+    const filteredContacts = filter
+      ? contacts.filter(({ name, number }) =>
+          (name + number).toLowerCase().includes(filter)
+        )
+      : contacts;
     return (
       <Layout>
         <WrapperStyled>
           <Header>Phonebook</Header>
           <ContactFofm addContact={this.addContact} />
         </WrapperStyled>
-        {!!this.state.contacts.length && (
+        {!!contacts.length && (
           <Phonebook
-            filter={this.state.filter}
-            onCnangeFilter={this.changeFilter}
-            contacts={this.state.contacts}
+            filter={filter}
+            onChangeFilter={this.changeFilter}
+            filteredContacts={filteredContacts}
             onDelete={this.deleteContact}
           />
         )}

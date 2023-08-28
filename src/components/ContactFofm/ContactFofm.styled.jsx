@@ -58,11 +58,12 @@ export const ButtonStyled = styled.button`
   box-shadow: 3px 3px 10px #000000be;
   outline: none;
   transition: all 200ms;
-  :hover {
+  &:hover {
+    background-color: #02f7f7;
     scale: 1.03;
     box-shadow: 5px 5px 10px #0000007a;
   }
-  :active {
+  &:active {
     scale: 1.01;
     box-shadow: 3px 3px 10px #000000be;
   }
