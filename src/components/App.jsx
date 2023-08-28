@@ -26,12 +26,6 @@ export class App extends Component {
       }));
     }
   };
-  //   isInList
-  //     ? alert(name + ' is already in contacts list!')
-  //     : this.setState(prev => ({
-  //         contacts: [...prev.contacts, { name, number, id: nanoid() }],
-  //       }));
-  // };
 
   changeFilter = filterStr => this.setState({ filter: filterStr });
 
